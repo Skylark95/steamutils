@@ -1,0 +1,1 @@
+alias steam_games="$PY_STEAM/.venv/bin/python3 $PY_STEAM/steam_games.py"
