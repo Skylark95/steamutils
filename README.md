@@ -1,14 +1,14 @@
-# Steam Python Scripts
+# steamutils
+CLI for interacting with the Steam API
 
 ## Prerequisites
 - Python 3
-- MacOS, Linux, WSL, or Git Bash
-- Steam account and Steam API Key
+- Steam API Key
 
 ## Installation
 - Clone the repository:
     ```
-    git clone https://github.com/Skylark95/steam-python-scripts.git && cd steam-python-scripts
+    git clone https://github.com/Skylark95/steamutils.git && cd steamutils
     ```
 - Create and activate python virtual environment
     ```
@@ -18,17 +18,19 @@
     ```
     pip install -r requirements.txt
     ```
-- Create `.env` in root of project directory with the following content:
+- Install CLI script
     ```
-    STEAM_API_KEY={replace with your steam api key}
-    STEAM_ID={replace with your steam id}
+    pip install --editable .
     ```
-
-## Modules
-
-### steam_games
-Print a list of owned steam games to the terminal.
-
+## Usage
 ```
-./venv/bin/python3 steam_games.py
+Usage: steamutils [OPTIONS] COMMAND [ARGS]...
+
+Options:
+  --help  Show this message and exit.
+
+Commands:
+  apikey  Set the Steam API Key.
+  games   Lookup owned steam games.
+  user    Lookup SteamID by username.
 ```
