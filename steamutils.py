@@ -84,7 +84,7 @@ def games(user, csv, appid, free):
         'include_extended_appinfo': False
     }
     result = api.call('IPlayerService.GetOwnedGames', **options)
-    if not hasattr(result['response'], 'games'):
+    if 'games' not in result['response']:
         click.echo('User has no games or profile is set to private.')
         sys.exit(1)
     games_list = result['response']['games']
