@@ -99,7 +99,7 @@ def games(user, csv, appid, free):
         for output in output_list:
             click.echo(','.join(output.values()))
     else:
-        click.echo(json.dumps(output_list))
+        click.echo(json.dumps(output_list, indent=2))
 
 @click.command()
 @click.argument('username')
