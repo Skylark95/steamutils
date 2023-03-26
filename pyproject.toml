@@ -12,7 +12,7 @@ description = "CLI for interating with Steam API"
 readme = "README.md"
 license = { text = "MIT" }
 keywords = ["steam", "cli"]
-dependencies = ["click", "steam", "platformdirs"]
+dependencies = ["click", "steam", "platformdirs", "pyyaml"]
 
 [project.scripts]
 steamutils = "steamutils:cli"

@@ -1,5 +1,6 @@
 import click
 import json
+import yaml
 import os
 import sys
 from platformdirs import user_data_dir
@@ -65,10 +66,16 @@ def apikey(key):
 
 @click.command()
 @click.argument('user')
-@click.option('--csv/--json', default=True, help="Output format. Default is --csv")
-@click.option('--appid/--no-appid', default=False, help="Include app id in the response. Default is --no-appid")
-@click.option('--free/--no-free', default=False, help="Include free games in the output. Default is --no-free")
-def games(user, csv, appid, free):
+@click.option('--format', '-f',
+              type=click.Choice(['csv', 'json', 'yaml'], case_sensitive=False),
+              default='csv', help="The output format. Default is csv.")
+@click.option('--include', '-i',
+              type=click.Choice(['name', 'appid', 'url'], case_sensitive=False),
+              multiple=True, default=['name'], 
+              help="The fields to include. Only name is included by default. This option may be supplied multiple times.")
+@click.option('--free/--no-free', default=False, 
+              help="Include free games in the output. Default is to exclude free games.")
+def games(user, format, include, free):
     """Lookup owned steam games.
     
     USER is the name of the steam user"""
@@ -91,15 +98,21 @@ def games(user, csv, appid, free):
     games_list.sort(key=lambda game: game['name'])
     output_list = []
     for game in games_list:
-       output = { 'game': game['name'] } 
-       output_list.append(output)
-       if appid:
-           output['appid'] = str(game['appid'])
-    if csv:
-        for output in output_list:
-            click.echo(','.join(output.values()))
-    else:
+        output = {}
+        for field in include:
+            if field == 'url':
+                output[field] = f"https://store.steampowered.com/app/{game['appid']}"
+            else:
+                output[field] = game[field]
+        output_list.append(output)
+    if format == 'json':
         click.echo(json.dumps(output_list, indent=2))
+    elif format == 'yaml':
+        click.echo(yaml.dump(output_list))
+    else:
+        for output in output_list:
+            values = map(lambda value: str(value), output.values())
+            click.echo(','.join(values))
 
 @click.command()
 @click.argument('username')
